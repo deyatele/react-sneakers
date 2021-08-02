@@ -1,5 +1,5 @@
-export default function Drawer(props) {
- 
+export default function Drawer({ onClose, cartItems = [] }) {
+  //console.log(cartItems);
   return (
     <div className="overlay">
       <div className="drawer">
@@ -7,43 +7,30 @@ export default function Drawer(props) {
           Корзина{' '}
           <img
             className="removeBtn cu-p"
-            onClick={props.onClose}
+            onClick={onClose}
             src="/img/btn-remove-hover.svg"
             alt="Remove"
           />
         </h2>
         <div className="items">
-          <div className="cartItem d-flex aling-center mb-20">
-            <div
-              style={{ backgroundImage: 'url(/img/item/1.jpg)' }}
-              className="cartItemImg"
-            ></div>
-            <div className="mr-20 flex">
-              <p className="mb-5">Мужские кросовки</p>
-              <b>12 999 руб.</b>
+          {/* {console.log(cartItems)} */}
+          {cartItems.map((item) => (
+            <div className="cartItem d-flex aling-center mb-20" key={item.id}>
+              <div
+                style={{ backgroundImage: `url(${item.imageUrl})` }}
+                className="cartItemImg"
+              ></div>
+              <div className="mr-20 flex">
+                <p className="mb-5">{item.title}</p>
+                <b>{item.price} руб.</b>
+              </div>
+              <img
+                className="removeBtn"
+                src="/img/btn-remove-hover.svg"
+                alt="Close"
+              />
             </div>
-            <img
-              className="removeBtn"
-              
-              src="/img/btn-remove-hover.svg"
-              alt="Close"
-            />
-          </div>
-          <div className="cartItem d-flex aling-center mb-20">
-            <div
-              style={{ backgroundImage: 'url(/img/item/1.jpg)' }}
-              className="cartItemImg"
-            ></div>
-            <div className="mr-20 flex">
-              <p className="mb-5">Мужские кросовки</p>
-              <b>12 999 руб.</b>
-            </div>
-            <img
-              className="removeBtn"
-              src="/img/btn-remove-hover.svg"
-              alt="Remove"
-            />
-          </div>
+          ))}
         </div>
         <div className="cartTotalBlock">
           <ul>
