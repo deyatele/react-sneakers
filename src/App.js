@@ -3,21 +3,36 @@ import axios from 'axios';
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import Loader from './components/Loader';
 
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [cartOpened, setCartOpened] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState('');
+  let isLoader = false;
+  const openCart = () => {
+    console.log(isLoader);
+    axios
+      .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
+      .then((res) => {
+        setTimeout(() => {
+          isLoader = false;
+          console.log(isLoader);
+          setCartItems(res.data);
+        }, 1000);
+      })
+
+      .catch((e) => console.log(e));
+  };
+
   React.useEffect(() => {
     axios
       .get('https://61082c6bd73c6400170d3875.mockapi.io/items')
-      .then((res) => setItems(res.data))
+      .then((res) => {
+        setItems(res.data);
+      })
       .catch((e) => console.log(e));
-    axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
-      .then((res) => setCartItems(res.data))
-      .catch((e) => console.log(e)); 
   }, []);
   const addToCard = (card) => {
     axios.post('https://61082c6bd73c6400170d3875.mockapi.io/basket', card);
@@ -35,12 +50,22 @@ function App() {
     <div className="wrapper clear">
       {cartOpened && (
         <Drawer
-          onClose={() => setCartOpened(false)}
+          onClose={() => {
+            setCartOpened(false);
+          }}
           cartItems={cartItems}
           onRemove={(id) => removeItem(id)}
+          isLoader={isLoader}
         />
       )}
-      <Header onClickCard={() => setCartOpened(true)} />
+      <Header
+        onClickCard={() => {
+          isLoader = true;
+          setCartOpened(true);
+
+          openCart();
+        }}
+      />
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
           <h1>
@@ -63,15 +88,21 @@ function App() {
             />
           </div>
         </div>
-        <div className="d-flex flex-wrap">
-          {items
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase()),
-            )
-            .map((arg) => (
-              <Card key={arg.id} {...arg} onPlus={() => addToCard(arg)} />
-            ))}
-        </div>
+        {items.length === 0 ? (
+          <div className="d-flex justify-center mt-50 mb-50">
+            <Loader />
+          </div>
+        ) : (
+          <div className="d-flex flex-wrap">
+            {items
+              .filter((item) =>
+                item.title.toLowerCase().includes(searchValue.toLowerCase()),
+              )
+              .map((arg) => (
+                <Card key={arg.id} {...arg} onPlus={() => addToCard(arg)} />
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );

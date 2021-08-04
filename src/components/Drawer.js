@@ -1,5 +1,12 @@
-export default function Drawer({ onClose, onRemove, cartItems = [] }) {
-  //console.log(cartItems);
+import Loader from './Loader';
+
+export default function Drawer({
+  onClose,
+  onRemove,
+  cartItems = [],
+  isLoader,
+}) {
+  console.log(isLoader);
   return (
     <div className="overlay">
       <div className="drawer">
@@ -12,8 +19,10 @@ export default function Drawer({ onClose, onRemove, cartItems = [] }) {
             alt="Remove"
           />
         </h2>
-        {cartItems.length > 0 ? (
-          <div>
+        {isLoader ? (
+          <Loader />
+        ) : cartItems.length > 0 ? (
+          <>
             <div className="items">
               {/* {console.log(cartItems)} */}
               {cartItems.map((item) => (
@@ -55,7 +64,7 @@ export default function Drawer({ onClose, onRemove, cartItems = [] }) {
                 Оформить заказ <img src="/img/arrow.svg" alt="arrow" />{' '}
               </button>
             </div>
-          </div>
+          </>
         ) : (
           <div className="cartEmpty aling-center">
             <img
