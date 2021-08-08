@@ -6,9 +6,9 @@ export default function Drawer({
   cartItems = [],
   isLoader,
 }) {
-  console.log(isLoader);
+  //console.log(isLoader);
   return (
-    <div className="overlay">
+    <div className="overlay" onClick={(e)=> e.target.className === 'overlay' && onClose()}>
       <div className="drawer">
         <h2 className="d-flex justify-between mb-30 ">
           Корзина{' '}
@@ -20,7 +20,9 @@ export default function Drawer({
           />
         </h2>
         {isLoader ? (
+          <div className="d-flex justify-center align-center flex">
           <Loader />
+          </div>
         ) : cartItems.length > 0 ? (
           <>
             <div className="items">
