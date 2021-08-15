@@ -1,36 +1,17 @@
 import React from 'react';
 import Card from '../components/Card';
-import axios from 'axios';
 import Loader from '../components/Loader';
 
-export default function Home({setCartItems}) {
-    const [items, setItems] = React.useState([]);
-    const [searchValue, setSearchValue] = React.useState('');
-    
-   
-    const isFavorites = localStorage.getItem('favorites')
-    ? JSON.parse(localStorage.getItem('favorites'))
-    : [];
-
-    React.useEffect(() => {
-        axios
-          .get('https://61082c6bd73c6400170d3875.mockapi.io/items')
-          .then((res) => {
-            setItems(res.data);
-          })
-          .catch((e) => console.log(e));
-      }, []);
-      const addToCard = (card) => {
-        axios.post('https://61082c6bd73c6400170d3875.mockapi.io/basket', card);
-        setCartItems((prev) => [...prev, card]);
-      };
-      
-      const onSeachInput = (e) => {
-        setSearchValue(e.target.value);
-      };
-    
-
-  
+export default function Home({
+  items,
+  searchValue,
+  setSearchValue,
+  onSeachInput,
+  isFavorites,
+  addToCard,
+  onFavorite,
+  isAddBaskets = [],
+}) {
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -68,10 +49,11 @@ export default function Home({setCartItems}) {
               <Card
                 key={arg.id}
                 {...arg}
-                onPlus={() => addToCard(arg)}
-                isFavoriteItem={
-                  isFavorites.filter((idx) => idx.id === arg.id)[0]
-                }
+                addToCard={() => addToCard(arg)}
+                isFavorite={isFavorites.includes(arg.id) ? true : false}
+                id={arg.id}
+                onFavorite={onFavorite}
+                //isAddBasket={isAddBaskets.filter((idx) => idx.id === arg.id)[0]}
               />
             ))}
         </div>
