@@ -10,8 +10,11 @@ export default function Home({
   isFavorites,
   addToCard,
   onFavorite,
-  isAddBaskets = [],
+  cartItems,
+  onRemove,
+  disableBattonAdd
 }) {
+  
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -53,7 +56,9 @@ export default function Home({
                 isFavorite={isFavorites.includes(arg.id) ? true : false}
                 id={arg.id}
                 onFavorite={onFavorite}
-                //isAddBasket={isAddBaskets.filter((idx) => idx.id === arg.id)[0]}
+                cartItem={cartItems.find((i)=>i.id===arg.id)}
+                onRemove={onRemove}
+                disableBattonAdd={disableBattonAdd}
               />
             ))}
         </div>

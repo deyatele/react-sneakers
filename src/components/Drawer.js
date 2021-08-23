@@ -6,7 +6,7 @@ export default function Drawer({
   cartItems = [],
   isLoader,
 }) {
-  //console.log(isLoader);
+  // console.log(cartItems);
   return (
     <div className="overlay" onClick={(e)=> e.target.className === 'overlay' && onClose()}>
       <div className="drawer">
@@ -16,7 +16,7 @@ export default function Drawer({
             className="removeBtn cu-p"
             onClick={onClose}
             src="/img/btn-remove-hover.svg"
-            alt="Remove"
+            alt="Закрыть"
           />
         </h2>
         {isLoader ? (
@@ -28,26 +28,29 @@ export default function Drawer({
             <div className="items">
               {/* {console.log(cartItems)} */}
               {cartItems.map((item) => (
-                <div
-                  className="cartItem d-flex aling-center mb-20"
-                  key={item.id}
-                >
-                  <div
-                    style={{ backgroundImage: `url(${item.imageUrl})` }}
-                    className="cartItemImg"
-                  ></div>
-                  <div className="mr-20 flex">
-                    <p className="mb-5">{item.title}</p>
-                    <b>{item.price} руб.</b>
+                    <div
+                      className="cartItem d-flex aling-center mb-20"
+                      key={item.id}
+                    >
+                    <div
+                      style={{ backgroundImage: `url(${item.imageUrl})` }}
+                      className="cartItemImg"
+                    >                      
+                    </div>
+                    <div className="mr-20 flex">
+                      <p className="mb-5">{item.title}</p>
+                      <b>{item.price} руб.</b>
+                    </div>
+                    <img
+                      onClick={() => onRemove(item)}
+                      className="removeBtn"
+                      src="/img/btn-remove-hover.svg"
+                      alt="Close"
+                    />
                   </div>
-                  <img
-                    onClick={() => onRemove(item.id)}
-                    className="removeBtn"
-                    src="/img/btn-remove-hover.svg"
-                    alt="Close"
-                  />
-                </div>
-              ))}
+                  )
+                )
+              }
             </div>
             <div className="cartTotalBlock">
               <ul>

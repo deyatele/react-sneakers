@@ -12,7 +12,8 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
   const [items, setItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
-  const [isAddBasket, setIsAddBasket] = React.useState(false);
+  const [disableBattonAdd, setDiableBattonAdd] = React.useState(false);
+
   const localFavorites = localStorage.getItem('favorites')
     ? JSON.parse(localStorage.getItem('favorites'))
     : [];
@@ -39,10 +40,6 @@ function App() {
     }
   };
 
-  const onClickPlus = () => {
-    setIsAddBasket(!isAddBasket);
-  };
-
   const openCart = () => {
     setIsLoader(true);
     axios
@@ -55,11 +52,20 @@ function App() {
       })
       .catch((e) => console.log(e));
   };
+
   const addToCard = (card) => {
-    console.log(card);
-    onClickPlus();
-    axios.post('https://61082c6bd73c6400170d3875.mockapi.io/basket', card);
-    setCartItems((prev) => [...prev, card]);
+    setDiableBattonAdd(true);
+    try {
+      axios
+        .post('https://61082c6bd73c6400170d3875.mockapi.io/basket', card)
+        .then((res) => {
+          setCartItems((prev) => [...prev, res.data]);
+          setDiableBattonAdd(false);
+        });
+    } catch (e) {
+      setDiableBattonAdd(false);
+      console.log(e);
+    }
   };
 
   React.useEffect(() => {
@@ -69,15 +75,31 @@ function App() {
         setItems(res.data);
       })
       .catch((e) => console.log(e));
+    axios
+      .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
+      .then((res) => {
+        setCartItems(res.data);
+      });
   }, []);
 
   const onSeachInput = (e) => {
     setSearchValue(e.target.value);
   };
 
-  const removeItem = (id) => {
-    axios.delete(`https://61082c6bd73c6400170d3875.mockapi.io/basket/${id}`);
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  const removeItem = (cart) => {
+    setDiableBattonAdd(true);
+    try {
+      axios
+        .delete(
+          `https://61082c6bd73c6400170d3875.mockapi.io/basket/${cart.id_mok}`,
+        )
+        .then(() => {
+          setCartItems((prev) => prev.filter((item) => item.id !== cart.id));
+          setDiableBattonAdd(false);
+        });
+    } catch (e) {
+      setDiableBattonAdd(false);
+    }
   };
 
   return (
@@ -101,32 +123,27 @@ function App() {
 
       <Route path="/" exact>
         <Home
-          setCartItems={setCartItems}
           items={items}
-          setItems={setItems}
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           onSeachInput={onSeachInput}
-          setIsFavorite={setIsFavorite}
           isFavorites={isFavorites}
           addToCard={addToCard}
-          //isAddBaskets={isAddBaskets}
+          onRemove={(id) => removeItem(id)}
           onFavorite={onFavorite}
+          cartItems={cartItems}
+          disableBattonAdd={disableBattonAdd}
         />
       </Route>
       <Route path="/favorites">
         <Favorites
-          setCartItems={setCartItems}
           items={items}
-          setItems={setItems}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          onSeachInput={onSeachInput}
-          setIsFavorite={setIsFavorite}
           isFavorites={isFavorites}
           addToCard={addToCard}
-          //isAddBaskets={isAddBaskets}
+          cartItems={cartItems}
           onFavorite={onFavorite}
+          onRemove={(id) => removeItem(id)}
+          disableBattonAdd={disableBattonAdd}
         />
       </Route>
     </div>

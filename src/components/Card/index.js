@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Card.module.scss';
 
 function Card({
+  cartItem,
   id,
   title,
   imageUrl,
@@ -9,9 +10,10 @@ function Card({
   isFavorite,
   addToCard,
   onFavorite,
-  isAddBasket = false,
+  disableBattonAdd,
+  onRemove,
 }) {
-  //console.log(isFavoriteItem);
+  const isBasket = !!cartItem;
 
   return (
     <div id={id} className={styles.card}>
@@ -32,8 +34,12 @@ function Card({
           <span>Цена:</span>
           <b> {price} руб.</b>
         </div>
-        <button className={styles.plus} onClick={addToCard}>
-          <img src={isAddBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />
+        <button
+          className={styles.plus}
+          onClick={isBasket ? () => onRemove(cartItem) : addToCard}
+          disabled={disableBattonAdd}
+        >
+          <img src={isBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />
         </button>
       </div>
     </div>

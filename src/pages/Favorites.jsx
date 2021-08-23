@@ -7,7 +7,12 @@ export default function Favorites({
   addToCard,
   onFavorite,
   isFavorites,
+  cartItems,
+  onRemove,
+  disableBattonAdd
 }) {
+  
+
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -20,14 +25,18 @@ export default function Favorites({
       ) : (
         <div className="d-flex flex-wrap">
           {items.map(
-            (arg) =>
-              isFavorites.includes(arg.id) && (
+            (item) =>
+              isFavorites.includes(item.id) && (
                 <Card
-                  key={arg.id}
-                  {...arg}
-                  addToCard={() => addToCard(arg)}
+                  key={item.id}
+                  {...item}
+                  addToCard={() => addToCard(item)}
+                  id={item.id}
                   isFavorite={true}
                   onFavorite={onFavorite}
+                  cartItem={cartItems.find((i) => i.id === item.id)}
+                  onRemove={onRemove}
+                  disableBattonAdd={disableBattonAdd}
                 />
               ),
           )}
