@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import { Bascet } from './pages/Bascet';
 
 function App() {
   const [cartItems, setCartItems] = React.useState([]);
@@ -42,15 +43,19 @@ function App() {
 
   const openCart = () => {
     setIsLoader(true);
-    axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
-      .then((res) => {
-        setCartItems(res.data);
-      })
-      .then(() => {
-        setIsLoader(false);
-      })
-      .catch((e) => console.log(e));
+    try {
+      axios
+        .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
+        .then((res) => {
+          setCartItems(res.data);
+        })
+        .then(() => {
+          setIsLoader(false);
+        });
+    } catch (e) {
+      setIsLoader(false);
+      console.log(e);
+    }
   };
 
   const addToCard = (card) => {
@@ -79,7 +84,8 @@ function App() {
       .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
       .then((res) => {
         setCartItems(res.data);
-      });
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   const onSeachInput = (e) => {
@@ -137,6 +143,17 @@ function App() {
       </Route>
       <Route path="/favorites">
         <Favorites
+          items={items}
+          isFavorites={isFavorites}
+          addToCard={addToCard}
+          cartItems={cartItems}
+          onFavorite={onFavorite}
+          onRemove={(id) => removeItem(id)}
+          disableBattonAdd={disableBattonAdd}
+        />
+      </Route>
+      <Route path="/bascet">
+        <Bascet
           items={items}
           isFavorites={isFavorites}
           addToCard={addToCard}
