@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './Card.module.scss';
+import { Context } from './../../context';
 
-function Card({
-  cartItem,
-  id,
-  title,
-  imageUrl,
-  price,
-  isFavorite,
-  addToCard,
-  onFavorite,
-  disableBattonAdd,
-  onRemove,
-}) {
+function Card({ item,cartItem,isFavorite, }) {
+  
+  const { addToCard, onFavorite, disableBattonAdd,removeItem } = useContext(Context);
   const isBasket = !!cartItem;
-
+  let {id,price,title, imageUrl}=item
+  
   return (
     <div id={id} className={styles.card}>
       <div
@@ -36,7 +29,7 @@ function Card({
         </div>
         <button
           className={styles.plus}
-          onClick={isBasket ? () => onRemove(cartItem) : addToCard}
+          onClick={isBasket ? () => removeItem(cartItem) : () => addToCard(item)}
           disabled={disableBattonAdd}
         >
           <img src={isBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />

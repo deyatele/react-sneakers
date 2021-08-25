@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { Context } from './context';
 import axios from 'axios';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
@@ -109,61 +110,68 @@ function App() {
   };
 
   return (
-    <div className="wrapper clear">
-      {cartOpened && (
-        <Drawer
-          onClose={() => {
-            setCartOpened(false);
+    <Context.Provider
+      value={{
+        items,
+        searchValue,
+        setSearchValue,
+        onSeachInput,
+        isFavorites,
+        addToCard,
+        onFavorite,
+        cartItems,
+        disableBattonAdd,
+        removeItem
+      }}
+    >
+      <div className="wrapper clear">
+        {cartOpened && (
+          <Drawer
+            onClose={() => {
+              setCartOpened(false);
+            }}
+            cartItems={cartItems}
+            onRemove={(id) => removeItem(id)}
+            isLoader={isLoader}
+          />
+        )}
+        <Header
+          onClickCard={() => {
+            setCartOpened(true);
+            openCart();
           }}
-          cartItems={cartItems}
-          onRemove={(id) => removeItem(id)}
-          isLoader={isLoader}
         />
-      )}
-      <Header
-        onClickCard={() => {
-          setCartOpened(true);
-          openCart();
-        }}
-      />
 
-      <Route path="/" exact>
-        <Home
-          items={items}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          onSeachInput={onSeachInput}
-          isFavorites={isFavorites}
-          addToCard={addToCard}
-          onRemove={(id) => removeItem(id)}
-          onFavorite={onFavorite}
-          cartItems={cartItems}
-          disableBattonAdd={disableBattonAdd}
-        />
-      </Route>
-      <Route path="/favorites">
-        <Favorites
-          items={items}
-          isFavorites={isFavorites}
-          addToCard={addToCard}
-          cartItems={cartItems}
-          onFavorite={onFavorite}
-          onRemove={(id) => removeItem(id)}
-          disableBattonAdd={disableBattonAdd}
-        />
-      </Route>
-      <Route path="/bascet">
-        <Bascet
-          items={items}
-          isFavorites={isFavorites}
-          addToCard={addToCard}
-          cartItems={cartItems}
-          onFavorite={onFavorite}
-          onRemove={(id) => removeItem(id)}
-          disableBattonAdd={disableBattonAdd}
-        />
-      </Route>
-    </div>
+        <Route path="/" exact>
+          <Home            
+            onRemove={(id) => removeItem(id)}
+            
+          />
+        </Route>
+        <Route path="/favorites">
+          <Favorites
+            items={items}
+            isFavorites={isFavorites}
+            addToCard={addToCard}
+            cartItems={cartItems}
+            onFavorite={onFavorite}
+            onRemove={(id) => removeItem(id)}
+            disableBattonAdd={disableBattonAdd}
+          />
+        </Route>
+        <Route path="/bascet">
+          <Bascet
+            items={items}
+            isFavorites={isFavorites}
+            addToCard={addToCard}
+            cartItems={cartItems}
+            onFavorite={onFavorite}
+            onRemove={(id) => removeItem(id)}
+            disableBattonAdd={disableBattonAdd}
+          />
+        </Route>
+      </div>
+    </Context.Provider>
   );
 }
 

@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from '../components/Card';
 import { MoopLoading } from '../components/Loader';
+import { Context } from '../context';
 
-export default function Home({
-  items,
-  searchValue,
-  setSearchValue,
-  onSeachInput,
-  isFavorites,
-  addToCard,
-  onFavorite,
-  cartItems,
-  onRemove,
-  disableBattonAdd,
-}) {
+export default function Home() {
+  const {
+    items,
+    searchValue,
+    setSearchValue,
+    onSeachInput,
+    isFavorites,
+    cartItems,
+  } = useContext(Context);
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
@@ -39,7 +37,7 @@ export default function Home({
       </div>
       {items.length === 0 ? (
         <div className="d-flex justify-between flex-wrap ">
-          {[0, 0, 0, 0, 0, 0, 0, 0].map((_,i) => {
+          {[...Array(8)].map((_, i) => {
             return (
               <div key={i} className="mt-10 mb-20 mr-30">
                 <MoopLoading />
@@ -50,20 +48,17 @@ export default function Home({
       ) : (
         <div className="d-flex flex-wrap ">
           {items
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase()),
+            .filter((filterItem) =>
+              filterItem.title
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()),
             )
-            .map((arg) => (
+            .map((item) => (
               <Card
-                key={arg.id}
-                {...arg}
-                addToCard={() => addToCard(arg)}
-                isFavorite={isFavorites.includes(arg.id) ? true : false}
-                id={arg.id}
-                onFavorite={onFavorite}
-                cartItem={cartItems.find((i) => i.id === arg.id)}
-                onRemove={onRemove}
-                disableBattonAdd={disableBattonAdd}
+                key={item.id}
+                item={item}
+                isFavorite={isFavorites.includes(item.id) ? true : false}
+                cartItem={cartItems.find((i) => i.id === item.id)}
               />
             ))}
         </div>
