@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Context } from '../context';
 import { Loader } from './Loader';
-export const AddToDrawer = ({onOrder, disabled}) => {
-  const { removeItem, isLoader,cartItems } = useContext(Context);
+export const AddToDrawer = ({ onOrder, disabled }) => {
+  const { removeItem, isLoader, cartItems } = useContext(Context);
   if (isLoader) {
     return (
       <div className="d-flex justify-center align-center flex">

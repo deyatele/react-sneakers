@@ -6,12 +6,7 @@ import { Context } from './../context';
 import axios from 'axios';
 
 export default function Drawer() {
-  const {
-    onClose,
-    setCartItems,
-    removeItem,
-    cartItems = [],
-  } = useContext(Context);
+  const { onClose, setCartItems, cartItems = [] } = useContext(Context);
   const [isOrder, setIsOrder] = useState(false);
   const [orderId, setOrderId] = useState(null);
   const [disabled, setDibled] = useState(false);
