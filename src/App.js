@@ -108,7 +108,9 @@ function App() {
       setDiableBattonAdd(false);
     }
   };
-
+  const onClose = () => {
+    setCartOpened(false);
+  };
   return (
     <Context.Provider
       value={{
@@ -121,20 +123,14 @@ function App() {
         onFavorite,
         cartItems,
         disableBattonAdd,
-        removeItem
+        removeItem,
+        onClose,
+        isLoader,
+        setCartItems
       }}
     >
       <div className="wrapper clear">
-        {cartOpened && (
-          <Drawer
-            onClose={() => {
-              setCartOpened(false);
-            }}
-            cartItems={cartItems}
-            onRemove={(id) => removeItem(id)}
-            isLoader={isLoader}
-          />
-        )}
+        {cartOpened && <Drawer />}
         <Header
           onClickCard={() => {
             setCartOpened(true);
@@ -143,10 +139,7 @@ function App() {
         />
 
         <Route path="/" exact>
-          <Home            
-            onRemove={(id) => removeItem(id)}
-            
-          />
+          <Home onRemove={(id) => removeItem(id)} />
         </Route>
         <Route path="/favorites">
           <Favorites
