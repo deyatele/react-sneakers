@@ -1,15 +1,10 @@
 import React, { useContext } from 'react';
-import { Context } from '../context';
-import { Loader } from './Loader';
+import { Context } from '../../context';
+import { useCard } from './../../hooks/useCard';
 export const AddToDrawer = ({ onOrder, disabled }) => {
-  const { removeItem, isLoader, cartItems } = useContext(Context);
-  if (isLoader) {
-    return (
-      <div className="d-flex justify-center align-center flex">
-        <Loader />
-      </div>
-    );
-  }
+  const { removeItem, cartItems } = useContext(Context);
+  const { totalPrice } = useCard();
+
   return (
     <>
       <div className="items">
@@ -21,7 +16,13 @@ export const AddToDrawer = ({ onOrder, disabled }) => {
             ></div>
             <div className="mr-20 flex">
               <p className="mb-5">{item.title}</p>
-              <b>{item.price} руб.</b>
+              <b>
+                {item.price.toLocaleString('ru-RU', {
+                  style: 'currency',
+                  currency: 'RUB',
+                  minimumFractionDigits: 0,
+                })}
+              </b>
             </div>
             <img
               onClick={() => removeItem(item)}
@@ -37,12 +38,22 @@ export const AddToDrawer = ({ onOrder, disabled }) => {
           <li>
             <span>Итого:</span>
             <div></div>
-            <b>21 498 руб.</b>
+            <b>
+              {totalPrice.toLocaleString('ru-RU', {
+                style: 'currency',
+                currency: 'RUB',
+              })}
+            </b>
           </li>
           <li>
             <span>Налог 5%:</span>
             <div></div>
-            <b>1074 руб.</b>
+            <b>
+              {(totalPrice * 0.05).toLocaleString('ru-RU', {
+                style: 'currency',
+                currency: 'RUB',
+              })}
+            </b>
           </li>
         </ul>
         <button className="greenButton" onClick={onOrder} disabled={disabled}>

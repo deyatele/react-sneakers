@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { Context } from './context';
 import axios from 'axios';
@@ -10,7 +10,6 @@ import { Bascet } from './pages/Bascet';
 
 function App() {
   const [cartItems, setCartItems] = React.useState([]);
-  const [isLoader, setIsLoader] = React.useState(false);
   const [cartOpened, setCartOpened] = React.useState(false);
   const [items, setItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
@@ -20,7 +19,23 @@ function App() {
     ? JSON.parse(localStorage.getItem('favorites'))
     : [];
   const [isFavorites, setIsFavorite] = React.useState(localFavorites);
+  useEffect(() => {
+    axios
+      .get('https://61082c6bd73c6400170d3875.mockapi.io/items')
+      .then((res) => {
+        setItems(res.data);
+      })
+      .catch((e) => console.log(e));
 
+    try {
+      let localItems = localStorage.getItem('bascet')
+        ? JSON.parse(localStorage.getItem('bascet'))
+        : [];
+      setCartItems(localItems);
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
   const onFavorite = (arg) => {
     if (!arg.isFavorite) {
       let localFavorites = localStorage.getItem('favorites')
@@ -42,71 +57,27 @@ function App() {
     }
   };
 
-  const openCart = () => {
-    setIsLoader(true);
-    try {
-      axios
-        .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
-        .then((res) => {
-          setCartItems(res.data);
-        })
-        .then(() => {
-          setIsLoader(false);
-        });
-    } catch (e) {
-      setIsLoader(false);
-      console.log(e);
-    }
-  };
-
   const addToCard = (card) => {
-    setDiableBattonAdd(true);
-    try {
-      axios
-        .post('https://61082c6bd73c6400170d3875.mockapi.io/basket', card)
-        .then((res) => {
-          setCartItems((prev) => [...prev, res.data]);
-          setDiableBattonAdd(false);
-        });
-    } catch (e) {
-      setDiableBattonAdd(false);
-      console.log(e);
-    }
+    setCartItems((prev) => [...prev, card]);
   };
 
-  React.useEffect(() => {
-    axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/items')
-      .then((res) => {
-        setItems(res.data);
-      })
-      .catch((e) => console.log(e));
-    axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/basket')
-      .then((res) => {
-        setCartItems(res.data);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+  useEffect(() => {
+    try {
+      setDiableBattonAdd(true);
+      localStorage.setItem('bascet', JSON.stringify(cartItems));
+    } catch (e) {
+      console.log(e);
+    }
+    setDiableBattonAdd(false);
+  }, [cartItems]);
 
   const onSeachInput = (e) => {
     setSearchValue(e.target.value);
   };
 
   const removeItem = (cart) => {
-    setDiableBattonAdd(true);
-    try {
-      axios
-        .delete(
-          `https://61082c6bd73c6400170d3875.mockapi.io/basket/${cart.id_mok}`,
-        )
-        .then(() => {
-          setCartItems((prev) => prev.filter((item) => item.id !== cart.id));
-          setDiableBattonAdd(false);
-        });
-    } catch (e) {
-      setDiableBattonAdd(false);
-    }
+    setCartItems((prev) => prev.filter((item) => item.id !== cart.id));
+    
   };
   const onClose = () => {
     setCartOpened(false);
@@ -125,8 +96,7 @@ function App() {
         disableBattonAdd,
         removeItem,
         onClose,
-        isLoader,
-        setCartItems
+        setCartItems,
       }}
     >
       <div className="wrapper clear">
@@ -134,13 +104,13 @@ function App() {
         <Header
           onClickCard={() => {
             setCartOpened(true);
-            openCart();
           }}
         />
 
         <Route path="/" exact>
           <Home onRemove={(id) => removeItem(id)} />
         </Route>
+
         <Route path="/favorites">
           <Favorites
             items={items}
@@ -153,15 +123,7 @@ function App() {
           />
         </Route>
         <Route path="/bascet">
-          <Bascet
-            items={items}
-            isFavorites={isFavorites}
-            addToCard={addToCard}
-            cartItems={cartItems}
-            onFavorite={onFavorite}
-            onRemove={(id) => removeItem(id)}
-            disableBattonAdd={disableBattonAdd}
-          />
+          <Bascet isFavorites={isFavorites} />
         </Route>
       </div>
     </Context.Provider>
