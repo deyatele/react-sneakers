@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Context } from '../../context';
 import { useCard } from './../../hooks/useCard';
+
 export const AddToDrawer = ({ onOrder, disabled }) => {
   const { removeItem, cartItems } = useContext(Context);
   const { totalPrice } = useCard();
@@ -57,7 +58,8 @@ export const AddToDrawer = ({ onOrder, disabled }) => {
           </li>
         </ul>
         <button className="greenButton" onClick={onOrder} disabled={disabled}>
-          Оформить заказ <img src="/img/arrow.svg" alt="arrow" />{' '}
+          <img src="/img/arrow.svg" alt="arrow" />
+          Оформить заказ
         </button>
       </div>
     </>

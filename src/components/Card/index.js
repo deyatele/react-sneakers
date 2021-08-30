@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styles from './Card.module.scss';
 import { Context } from './../../context';
 
-function Card({ item, cartItem, isFavorite }) {
+export default function Card({ item, cartItem, isFavorite, isBay = false }) {
   const { addToCard, onFavorite, disableBattonAdd, removeItem } =
     useContext(Context);
   const isBasket = !!cartItem;
@@ -10,15 +10,17 @@ function Card({ item, cartItem, isFavorite }) {
 
   return (
     <div id={id} className={styles.card}>
-      <div
-        className={styles.favorite}
-        onClick={() => onFavorite({ id, title, imageUrl, isFavorite })}
-      >
-        <img
-          src={isFavorite ? '/img/likeyes.png' : '/img/like-no.svg'}
-          alt="Unliked"
-        />
-      </div>
+      {!isBay && (
+        <div
+          className={styles.favorite}
+          onClick={() => onFavorite({ id, title, imageUrl, isFavorite })}
+        >
+          <img
+            src={isFavorite ? '/img/likeyes.png' : '/img/like-no.svg'}
+            alt="Unliked"
+          />
+        </div>
+      )}
 
       <img width={133} height={112} src={imageUrl} alt="Кроссовка" />
       <h5>{title}</h5>
@@ -34,17 +36,18 @@ function Card({ item, cartItem, isFavorite }) {
             })}{' '}
           </b>
         </div>
-        <button
-          className={styles.plus}
-          onClick={
-            isBasket ? () => removeItem(cartItem) : () => addToCard(item)
-          }
-          disabled={disableBattonAdd}
-        >
-          <img src={isBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />
-        </button>
+        {!isBay && (
+          <button
+            className={styles.plus}
+            onClick={
+              isBasket ? () => removeItem(cartItem) : () => addToCard(item)
+            }
+            disabled={disableBattonAdd}
+          >
+            <img src={isBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />
+          </button>
+        )}
       </div>
     </div>
   );
 }
-export default Card;

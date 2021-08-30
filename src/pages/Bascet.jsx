@@ -3,28 +3,37 @@ import Card from '../components/Card';
 import { MoopLoading } from '../components/Loader';
 
 import axios from 'axios';
+import { NotItem } from '../components/NotItem';
 
-export const Bascet = ({ isFavorites }) => {
+export const Bascet = ({ cartOpened }) => {
   const [orders, setOrders] = useState([]);
   const [isloader, setIsLoader] = useState(false);
+
   useEffect(() => {
-    setIsLoader(true)
+    if (!cartOpened) {
+      setIsLoader(true);
+      getOrders();
+    }
+  }, [cartOpened]);
+  const remove = (cart) => {
+    axios.delete(
+      `https://61082c6bd73c6400170d3875.mockapi.io/orders/${cart.id}`,
+    );
+    setOrders((prev) => prev.filter((item) => item.id !== cart.id));
+  };
+
+  const getOrders = () => {
     axios
       .get('https://61082c6bd73c6400170d3875.mockapi.io/orders')
       .then((res) => {
-        console.log(res.data);
         setOrders(res.data);
-        setIsLoader(false)
+        setIsLoader(false);
       })
-      .catch((e) =>{
-        setIsLoader(false)
-        console.log(e)});
-  }, []);
-  const remove = (cart) => {
-    axios.delete(`https://61082c6bd73c6400170d3875.mockapi.io/orders/${cart.id}`)
-    setOrders((prev) => prev.filter((item) => item.id !== cart.id));
-  }
-  
+      .catch((e) => {
+        setIsLoader(false);
+        console.log(e);
+      });
+  };
 
   return (
     <div className="content p-40">
@@ -41,22 +50,28 @@ export const Bascet = ({ isFavorites }) => {
             );
           })}
         </div>
+      ) : orders.length === 0 ? (
+        <div className="d-flex justify-center flex-wrap ">
+          <NotItem
+            title={'У вас нет заказов'}
+            description={(<p>Вы нищеброд? <br/>Оформите хотя бы один заказ.</p>)}
+            image={'img/smile-sad.svg'}
+            imageDescription={'Грустит'}
+          />
+        </div>
       ) : (
         <div className="d-flex flex-wrap flex-column">
           {orders.map((arg) => (
             <div key={arg.id}>
-              <h2 className="mt-10 d-flex justify-between pl-10 pr-10" >
+              <h2 className="mt-10 d-flex justify-between pl-10 pr-10">
                 Заказ #{arg.id}
-                <span className="cp" onClick={()=>remove(arg)}>x</span>
+                <span className="cp" onClick={() => remove(arg)}>
+                  x
+                </span>
               </h2>
               <div className="d-flex flex-wrap">
                 {arg.order.map((item) => (
-                  <Card
-                    key={item.id}
-                    item={item}
-                    isFavorite={isFavorites.includes(item.id) ? true : false}
-                    cartItem={item}
-                  />
+                  <Card key={item.id} item={item} cartItem={item} isBay />
                 ))}
               </div>
             </div>

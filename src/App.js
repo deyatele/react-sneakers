@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { Context } from './context';
 import axios from 'axios';
+
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Header from './components/Header';
@@ -77,7 +78,6 @@ function App() {
 
   const removeItem = (cart) => {
     setCartItems((prev) => prev.filter((item) => item.id !== cart.id));
-    
   };
   const onClose = () => {
     setCartOpened(false);
@@ -100,7 +100,7 @@ function App() {
       }}
     >
       <div className="wrapper clear">
-        {cartOpened && <Drawer />}
+        <Drawer cartOpened={cartOpened} />
         <Header
           onClickCard={() => {
             setCartOpened(true);
@@ -123,7 +123,7 @@ function App() {
           />
         </Route>
         <Route path="/bascet">
-          <Bascet isFavorites={isFavorites} />
+          <Bascet cartOpened={cartOpened} />
         </Route>
       </div>
     </Context.Provider>

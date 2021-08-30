@@ -1,10 +1,15 @@
 import React, { useContext } from 'react';
 import { Context } from '../../context';
 
-
-export const EmptyCard = ({ title, description, image,buttonLink,isOrder }) => {
+export const EmptyCard = ({
+  title,
+  description,
+  image,
+  buttonLink,
+  isOrder,
+}) => {
   let { onClose } = useContext(Context);
-  
+
   return (
     <>
       <div className="cartEmpty aling-center">

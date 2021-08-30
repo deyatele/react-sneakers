@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
 import { AddToDrawer } from './AddToDrawer';
 import { EmptyCard } from './EmptyCard';
-import { useContext } from 'react';
 import { Context } from '../../context';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-export default function Drawer() {
+export default function Drawer({ cartOpened }) {
   const { onClose, setCartItems, cartItems = [] } = useContext(Context);
   const [isOrder, setIsOrder] = useState(false);
   const [orderId, setOrderId] = useState(null);
@@ -28,12 +27,12 @@ export default function Drawer() {
       );
     }
     setDisabled(false);
-  };  
-  
+  };
+
   return (
     <div
-      className="overlay"
-      onClick={(e) => e.target.className === 'overlay' && onClose()}
+      className={cartOpened ? 'overlay visible' : 'overlay'}
+      onClick={(e) => e.target.className === 'overlay visible' && onClose()}
     >
       <div className="drawer">
         <h2 className="d-flex justify-between mb-30 ">
@@ -50,14 +49,20 @@ export default function Drawer() {
           <AddToDrawer onOrder={onOrder} disabled={disabled} />
         ) : (
           <EmptyCard
-          isOrder={isOrder}
+            isOrder={isOrder}
             title={isOrder ? 'Заказ оформлен' : 'Корзина пуста'}
             description={
               isOrder
                 ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке`
                 : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
             }
-            buttonLink={isOrder ? <Link to="/bascet">Перейти в мои покупки</Link> : 'Вернутся назад'}
+            buttonLink={
+              isOrder ? (
+                <Link to="/bascet">Перейти в мои покупки</Link>
+              ) : (
+                'Вернутся назад'
+              )
+            }
             image={isOrder ? '/img/order.svg' : '/img/empty-cart.jpg'}
           />
         )}
