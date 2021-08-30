@@ -6,6 +6,6 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# Приложение написано на функциональных компонентах без использование классов
+# Приложение написано на функциональных компонентах без использование классов.
 
 В приложении были использованы библиотеки: React, React-Dom, Axios, React Router Dom; Хуки: useState, useCotext, useEffect.
