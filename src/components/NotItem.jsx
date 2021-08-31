@@ -20,7 +20,7 @@ export const NotItem = ({
       <div className="no-item opacity-6 " >{description}</div>
       <Link to="/">
       <button  className="greenButton">
-        <img  src="/img/arrow.svg" alt="Arrow" />
+        <img  src="img/arrow.svg" alt="Arrow" />
         Вернутся назад
       </button></Link>
     </div>

@@ -23,7 +23,7 @@ export const EmptyCard = ({
         <h2>{title}</h2>
         <p className="opacity-6">{description}</p>
         <button onClick={onClose} className="greenButton">
-          <img src="/img/arrow.svg" alt="Arrow" />
+          <img src="img/arrow.svg" alt="Arrow" />
           {buttonLink}
         </button>
       </div>

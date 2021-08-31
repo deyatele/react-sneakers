@@ -1,4 +1,4 @@
-import React, { useState, useContext  } from 'react';
+import React, { useState, useContext } from 'react';
 import { AddToDrawer } from './AddToDrawer';
 import { EmptyCard } from './EmptyCard';
 import { Context } from '../../context';
@@ -40,7 +40,7 @@ export default function Drawer({ cartOpened }) {
           <img
             className="removeBtn cu-p"
             onClick={onClose}
-            src="/img/btn-remove-hover.svg"
+            src="img/btn-remove-hover.svg"
             alt="Закрыть"
           />
         </h2>
@@ -58,12 +58,12 @@ export default function Drawer({ cartOpened }) {
             }
             buttonLink={
               isOrder ? (
-                <Link to="/bascet">Перейти в мои покупки</Link>
+                <Link to="bascet">Перейти в мои покупки</Link>
               ) : (
                 'Вернутся назад'
               )
             }
-            image={isOrder ? '/img/order.svg' : '/img/empty-cart.jpg'}
+            image={isOrder ? 'img/order.svg' : 'img/empty-cart.jpg'}
           />
         )}
       </div>

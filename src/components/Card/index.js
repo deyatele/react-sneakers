@@ -16,24 +16,22 @@ export default function Card({ item, cartItem, isFavorite, isBay = false }) {
           onClick={() => onFavorite({ id, title, imageUrl, isFavorite })}
         >
           <img
-            src={isFavorite ? '/img/likeyes.png' : '/img/like-no.svg'}
+            src={isFavorite ? 'img/likeyes.png' : 'img/like-no.svg'}
             alt="Unliked"
           />
         </div>
       )}
-
       <img width={133} height={112} src={imageUrl} alt="Кроссовка" />
       <h5>{title}</h5>
       <div className="d-flex justify-between align-center">
         <div className="d-flex flex-column">
           <span>Цена:</span>
           <b>
-            {' '}
             {price.toLocaleString('ru-RU', {
               style: 'currency',
               currency: 'RUB',
               minimumFractionDigits: 0,
-            })}{' '}
+            })}
           </b>
         </div>
         {!isBay && (
@@ -44,7 +42,7 @@ export default function Card({ item, cartItem, isFavorite, isBay = false }) {
             }
             disabled={disableBattonAdd}
           >
-            <img src={isBasket ? '/img/up.svg' : '/img/plus.svg'} alt="Plus" />
+            <img src={isBasket ? 'img/up.svg' : 'img/plus.svg'} alt="Plus" />
           </button>
         )}
       </div>

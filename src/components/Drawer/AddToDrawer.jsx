@@ -28,7 +28,7 @@ export const AddToDrawer = ({ onOrder, disabled }) => {
             <img
               onClick={() => removeItem(item)}
               className="removeBtn"
-              src="/img/btn-remove-hover.svg"
+              src="img/btn-remove-hover.svg"
               alt="Close"
             />
           </div>
@@ -58,7 +58,7 @@ export const AddToDrawer = ({ onOrder, disabled }) => {
           </li>
         </ul>
         <button className="greenButton" onClick={onOrder} disabled={disabled}>
-          <img src="/img/arrow.svg" alt="arrow" />
+          <img src="img/arrow.svg" alt="arrow" />
           Оформить заказ
         </button>
       </div>

@@ -107,11 +107,11 @@ function App() {
           }}
         />
 
-        <Route path="/" exact>
+        <Route path="" exact>
           <Home onRemove={(id) => removeItem(id)} />
         </Route>
 
-        <Route path="/favorites">
+        <Route path="favorites">
           <Favorites
             items={items}
             isFavorites={isFavorites}
@@ -122,7 +122,7 @@ function App() {
             disableBattonAdd={disableBattonAdd}
           />
         </Route>
-        <Route path="/bascet">
+        <Route path="bascet">
           <Bascet cartOpened={cartOpened} />
         </Route>
       </div>
