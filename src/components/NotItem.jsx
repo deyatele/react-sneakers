@@ -6,7 +6,7 @@ export const NotItem = ({
   description,
   image,
   imageDescription,
-  onClose,
+  
 }) => {
   return (
     <div className={'d-flex justify-center flex-column align-center' }>

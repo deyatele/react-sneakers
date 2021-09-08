@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import styles from './Card.module.scss';
+
 import { Context } from './../../context';
+import styles from './Card.module.scss';
+
 
 export default function Card({ item, cartItem, isFavorite, isBay = false }) {
   const { addToCard, onFavorite, disableBattonAdd, removeItem } =

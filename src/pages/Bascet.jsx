@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import Card from '../components/Card';
 import { MoopLoading } from '../components/Loader';
-
-import axios from 'axios';
 import { NotItem } from '../components/NotItem';
 
 export const Bascet = ({ cartOpened }) => {

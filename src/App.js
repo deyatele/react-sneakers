@@ -15,7 +15,7 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [disableBattonAdd, setDiableBattonAdd] = React.useState(false);
-
+  
   const localFavorites = localStorage.getItem('favorites')
     ? JSON.parse(localStorage.getItem('favorites'))
     : [];

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useCard } from './../hooks/useCard';
+
 export default function Header(props) {
   const { totalPrice } = useCard();
   return (
