@@ -6,7 +6,7 @@ import { useCard } from './../hooks/useCard';
 export default function Header(props) {
   const { totalPrice } = useCard();
   return (
-    <header className="d-flex justify-between align-center p-40">
+    <header>
       <Link to="">
         <div className="d-flex align-center">
           <img width={40} height={40} src="img/logo.png" alt="Logo" />
@@ -17,7 +17,7 @@ export default function Header(props) {
           </div>
         </div>
       </Link>
-      <div>
+      <nav>
         <ul className="d-flex">
           <li className="mr-15 cu-p" onClick={props.onClickCard}>
             <img width={18} height={18} src="img/basket.svg" alt="Корзина" />
@@ -29,7 +29,7 @@ export default function Header(props) {
               })}
             </span>
           </li>
-          <li className="mr-30 cu-p">
+          <li className="cu-p">
             <Link to="favorites">
               <img
                 width={18}
@@ -50,7 +50,7 @@ export default function Header(props) {
             </Link>
           </li>
         </ul>
-      </div>
+      </nav>
     </header>
   );
 }

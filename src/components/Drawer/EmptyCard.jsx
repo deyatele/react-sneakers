@@ -12,7 +12,7 @@ export const EmptyCard = ({
 
   return (
     <>
-      <div className="cartEmpty aling-center">
+      <div className="cartEmpty">
         <img
           className="mb-20"
           width="120px"

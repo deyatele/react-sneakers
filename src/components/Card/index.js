@@ -23,7 +23,7 @@ export default function Card({ item, cartItem, isFavorite, isBay = false }) {
           />
         </div>
       )}
-      <img width={133} height={112} src={imageUrl} alt="Кроссовка" />
+      <img className={styles.img} src={imageUrl} alt="Кроссовка" />
       <h5>{title}</h5>
       <div className="d-flex justify-between align-center">
         <div className="d-flex flex-column">

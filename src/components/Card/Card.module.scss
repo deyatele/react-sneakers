@@ -15,11 +15,11 @@
   }
   span {
     opacity: 0.5;
-    font-size: 13px;
+    font-size: 14px;
     text-transform: uppercase;
   }
   b {
-    font-size: 13px;
+    font-size: 14px;
   }
   h5 {
     font-weight: 400;
@@ -35,5 +35,101 @@
     height: 32px;
     width: 32px;
     cursor: pointer;
+  }
+  .img {
+    width: 133px;
+    height: 112px;
+  }
+}
+
+@media (max-width: 850px) {
+  .card {
+    width: 200px;
+    span {
+      font-size: 12px;
+    }
+    b {
+      font-size: 12px;
+    }
+    h5 {
+      font-size: 12px;
+    }
+    .img {
+      width: 120px;
+      height: 101px;
+    }
+  }
+}
+
+@media (max-width: 790px) {
+  .card {
+    width: 240px;
+    span {
+      font-size: 16px;
+    }
+    b {
+      font-size: 16px;
+    }
+    h5 {
+      font-size: 16px;
+    }
+    .img {
+      width: 146px;
+      height: 123px;
+    }
+  }
+}
+@media (max-width: 640px) {
+  .card {
+    width: 220px;
+    span {
+      font-size: 14px;
+    }
+    b {
+      font-size: 14px;
+    }
+    h5 {
+      font-size: 14px;
+    }
+    .img {
+      width: 133px;
+      height: 112px;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .card {
+    width: 200px;
+    span {
+      font-size: 12px;
+    }
+    b {
+      font-size: 12px;
+    }
+    h5 {
+      font-size: 12px;
+    }
+    .img {
+      width: 120px;
+      height: 101px;
+    }
+  }
+}
+@media (max-width: 560px) {
+  .card {
+    width: 240px;
+    span {
+      font-size: 16px;
+    }
+    b {
+      font-size: 16px;
+    }
+    h5 {
+      font-size: 16px;
+    }
+    .img {
+      width: 146px;
+      height: 123px;
+    }
   }
 }

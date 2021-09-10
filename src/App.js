@@ -15,7 +15,7 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [disableBattonAdd, setDiableBattonAdd] = React.useState(false);
-  
+
   const localFavorites = localStorage.getItem('favorites')
     ? JSON.parse(localStorage.getItem('favorites'))
     : [];
@@ -100,7 +100,6 @@ function App() {
       }}
     >
       <div className="wrapper clear">
-        <Drawer cartOpened={cartOpened} />
         <Header
           onClickCard={() => {
             setCartOpened(true);
@@ -125,6 +124,7 @@ function App() {
         <Route path="/bascet">
           <Bascet cartOpened={cartOpened} />
         </Route>
+        <Drawer cartOpened={cartOpened} />
       </div>
     </Context.Provider>
   );
