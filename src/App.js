@@ -1,13 +1,16 @@
+
 import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { Context } from './context';
 import axios from 'axios';
+
 
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 import { Bascet } from './pages/Bascet';
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 function App() {
   const [cartItems, setCartItems] = React.useState([]);
@@ -15,6 +18,8 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState('');
   const [disableBattonAdd, setDiableBattonAdd] = React.useState(false);
+  
+  
 
   const localFavorites = localStorage.getItem('favorites')
     ? JSON.parse(localStorage.getItem('favorites'))
@@ -22,7 +27,7 @@ function App() {
   const [isFavorites, setIsFavorite] = React.useState(localFavorites);
   useEffect(() => {
     axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/items')
+      .get(`https://${BASE_URL}.mockapi.io/items`) 
       .then((res) => {
         setItems(res.data);
       })

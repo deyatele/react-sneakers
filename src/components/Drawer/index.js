@@ -4,6 +4,7 @@ import { EmptyCard } from './EmptyCard';
 import { Context } from '../../context';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 export default function Drawer({ cartOpened }) {
   const { onClose, setCartItems, cartItems = [] } = useContext(Context);
@@ -15,7 +16,7 @@ export default function Drawer({ cartOpened }) {
     try {
       setDisabled(true);
       const { data } = await axios.post(
-        'https://61082c6bd73c6400170d3875.mockapi.io/orders',
+        `https://${BASE_URL}.mockapi.io/orders`,
         { order: cartItems },
       );
       setOrderId(data.id);

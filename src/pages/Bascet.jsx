@@ -4,6 +4,7 @@ import axios from 'axios';
 import Card from '../components/Card';
 import { MoopLoading } from '../components/Loader';
 import { NotItem } from '../components/NotItem';
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 export const Bascet = ({ cartOpened }) => {
   const [orders, setOrders] = useState([]);
@@ -16,15 +17,13 @@ export const Bascet = ({ cartOpened }) => {
     }
   }, [cartOpened]);
   const remove = (cart) => {
-    axios.delete(
-      `https://61082c6bd73c6400170d3875.mockapi.io/orders/${cart.id}`,
-    );
+    axios.delete(`https://${BASE_URL}.mockapi.io/orders/${cart.id}`);
     setOrders((prev) => prev.filter((item) => item.id !== cart.id));
   };
 
   const getOrders = () => {
     axios
-      .get('https://61082c6bd73c6400170d3875.mockapi.io/orders')
+      .get(`https://${BASE_URL}.mockapi.io/orders`)
       .then((res) => {
         setOrders(res.data);
         setIsLoader(false);
@@ -54,7 +53,12 @@ export const Bascet = ({ cartOpened }) => {
         <div className="d-flex justify-center flex-wrap ">
           <NotItem
             title={'У вас нет заказов'}
-            description={(<p>Вы нищеброд? <br/>Оформите хотя бы один заказ.</p>)}
+            description={
+              <p>
+                Вы нищеброд? <br />
+                Оформите хотя бы один заказ.
+              </p>
+            }
             image={'img/smile-sad.svg'}
             imageDescription={'Грустит'}
           />
